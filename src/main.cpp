@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     box.box(FL_UP_BOX);
     box.labelfont(FL_BOLD + FL_ITALIC);
     box.labelsize(36);
-    box.labeltype(FL_SHADOW_LABEL);
+    box.labeltype(FL_NORMAL_LABEL);
     box.color(FL_RED);
 
     window.end();
