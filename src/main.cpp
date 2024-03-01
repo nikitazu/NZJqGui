@@ -1,8 +1,11 @@
 #include <stdio.h>
 
 #include <FL/Fl.H>
-#include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Multiline_Output.H>
+#include <FL/Fl_Window.H>
 
 #include "Fl_WindowEx.h"
 
@@ -11,10 +14,8 @@ const int WINDOW_HEIGHT = 600;
 
 int main(int argc, char** argv)
 {
-    printf("[INIT] FLTK -- START\n");
-
-    auto window = Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT);
-    auto box = Fl_Box(20, 40, 300, 100, "Hello, FLTK!");
+    auto window = Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Привет, FLTK [ v0.1.0 ]");
+    auto box = Fl_Box(20, 20, 300, 100, "Привет, FLTK!");
 
     Fl_WindowEx::set_position_center_screen(window);
     window.color(FL_CYAN);
@@ -25,10 +26,12 @@ int main(int argc, char** argv)
     box.labeltype(FL_NORMAL_LABEL);
     box.color(FL_RED);
 
+    auto output = Fl_Multiline_Output(100, 140, 800 - 200, 200, "Журнал");
+    auto input = Fl_Input(100, 340, 800 - 200, 25, "Ввод");
+    auto submit = Fl_Button(100, 380, 300, 25, "Отправить");
+
     window.end();
     window.show(argc, argv);
-
-    printf("[INIT] FLTK -- OK\n");
 
     return Fl::run();
 }
