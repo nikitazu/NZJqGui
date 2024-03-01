@@ -76,7 +76,7 @@
     <LibraryPath>$(SolutionDir)\lib\fltk-1.3.9\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\lib\fltk-1.3.9\FL;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\lib\fltk-1.3.9;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\fltk-1.3.9\lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\..\dist\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>

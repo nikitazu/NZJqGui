@@ -1,7 +1,7 @@
 #pragma once
 
-#include "lib/fltk-1.3.9/FL/Fl.H"
-#include "lib/fltk-1.3.9/FL/Fl_Window.H"
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
 
 class Fl_WindowEx
 {
