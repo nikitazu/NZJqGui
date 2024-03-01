@@ -144,9 +144,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NZ_MainWindowModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fl_WindowEx.h" />
+    <ClInclude Include="NZ_MainWindow.h" />
+    <ClInclude Include="NZ_MainWindowController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
