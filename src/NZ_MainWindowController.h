@@ -2,6 +2,7 @@
 
 #include "NZ_MainWindow.h"
 #include "NZ_MainWindowModel.h"
+#include "NZ_String.h"
 
 class NZ_MainWindowController
 {
@@ -28,8 +29,12 @@ private:
 
     void update_ui()
     {
-        _window->output->value(_model->output.c_str());
-        _window->json_input->value(_model->json_input.c_str());
+        const std::string win_newline = "\r\n";
+        const std::string unix_newline = "\n";
+
+        std::string temp = NZ_String::replace(_model->output, win_newline, unix_newline);
+
+        _window->output->value(temp.c_str());
     }
 
     void on_submit_button_click()

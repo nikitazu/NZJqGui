@@ -38,5 +38,8 @@
     <ClInclude Include="NZ_Pipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NZ_String.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
