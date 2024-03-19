@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <string>
 #include <Windows.h>
 
@@ -10,8 +11,18 @@ class NZ_JqProcess
 public:
     static std::string run(std::string json, std::string query)
     {
-        //char exe_path[MAX_PATH];
-        //GetModuleFileNameA(nullptr, exe_path, MAX_PATH);
+        std::wstring current_exe_filename;
+        current_exe_filename.reserve(FILENAME_MAX);
+        GetModuleFileNameW(nullptr, current_exe_filename.data(), FILENAME_MAX);
+
+        std::filesystem::path current_exe_path(current_exe_filename.c_str());
+        std::wstring jq_exe_path = current_exe_path
+            .parent_path()
+            .append("jq-windows-i386.exe")
+            .wstring();
+
+        std::wstring query_w = std::wstring(query.begin(), query.end());
+        std::wstring cli_args = L"\"" + jq_exe_path + L"\" \"" + query_w + L"\"";
 
         SECURITY_ATTRIBUTES security_attr;
 
@@ -49,10 +60,6 @@ public:
 
         PROCESS_INFORMATION process_info;
         ZeroMemory(&process_info, sizeof(process_info));
-
-        std::wstring query_w = std::wstring(query.begin(), query.end());
-        std::wstring jq_exe_path = L".\\jq-windows-i386.exe";
-        std::wstring cli_args = jq_exe_path + L" \"" + query_w + L"\"";
 
         bool success = CreateProcessW(
             jq_exe_path.c_str(),
