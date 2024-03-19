@@ -75,11 +75,21 @@
     <OutDir>$(SolutionDir)\..\dist\$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)\lib\fltk-1.3.9\FL;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\fltk-1.3.9\lib\x86;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)\..\temp\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)\lib\fltk-1.3.9;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\lib\fltk-1.3.9\lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\..\dist\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\..\temp\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\..\dist\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\..\temp\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\..\dist\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\..\temp\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -104,6 +114,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,6 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +148,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
