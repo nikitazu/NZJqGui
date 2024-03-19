@@ -7,14 +7,14 @@
 #include "NZ_MainWindow.h"
 #include "NZ_MainWindowController.h"
 
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+const int WINDOW_WIDTH = 1024;
+const int WINDOW_HEIGHT = 768;
 
 int main(int argc, char** argv)
 {
-    auto window = NZ_MainWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Привет, FLTK [ v0.1.0 ]");
+    auto window = NZ_MainWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "NZ JQ GUI [ v0.1.0 ]");
     Fl_WindowEx::set_position_center_screen(window);
-    window.color(FL_CYAN);
+    window.color(FL_WHITE);
     window.end();
     window.show(argc, argv);
 

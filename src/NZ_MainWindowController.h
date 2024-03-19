@@ -22,16 +22,13 @@ private:
     void update_model()
     {
         _model->output = _window->output->value();
-        _model->input = _window->input->value();
+        _model->input = _window->json_input->value();
     }
 
     void update_ui()
     {
-        _window->title_box->color(_model->is_title_toggled ? FL_RED : FL_WHITE);
-        _window->title_box->redraw();
-
         _window->output->value(_model->output.c_str());
-        _window->input->value(_model->input.c_str());
+        _window->json_input->value(_model->input.c_str());
     }
 
     void on_submit_button_click()
