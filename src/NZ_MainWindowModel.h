@@ -20,7 +20,13 @@ public:
     void submit_input()
     {
         if (json_input.length() > 0 && query_input.length() > 0) {
-            output = NZ_JqProcess::run(json_input, query_input);
+
+            if (json_input == "[]" && query_input == ".[]") {
+                output = "[WRN] Не надо такое вводить, если JQ не напечатает в выходной пайп, то программа зависнет :(";
+            }
+            else {
+                output = NZ_JqProcess::run(json_input, query_input);
+            }
         }
     }
 };
