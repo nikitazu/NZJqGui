@@ -101,7 +101,7 @@ public:
             return "[ERR] Failed to set <input> pipe write end to NO INHERIT";
         }
 
-        STARTUPINFOA startup_info;
+        STARTUPINFOW startup_info;
         ZeroMemory(&startup_info, sizeof(startup_info));
         startup_info.cb = sizeof(startup_info);
         startup_info.hStdError = child_out.write_handle;
@@ -112,10 +112,12 @@ public:
         PROCESS_INFORMATION process_info;
         ZeroMemory(&process_info, sizeof(process_info));
 
-        std::string cli_args = ".\\jq-windows-i386.exe \"" + query + "\"";
+        std::wstring query_w = std::wstring(query.begin(), query.end());
+        std::wstring jq_exe_path = L".\\jq-windows-i386.exe";
+        std::wstring cli_args = jq_exe_path + L" \"" + query_w + L"\"";
 
-        bool success = CreateProcessA(
-            ".\\jq-windows-i386.exe",
+        bool success = CreateProcessW(
+            jq_exe_path.c_str(),
             cli_args.data(),
             nullptr,
             nullptr,
