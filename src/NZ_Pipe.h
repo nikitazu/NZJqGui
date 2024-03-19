@@ -39,42 +39,42 @@ public:
         }
     }
 
-    void connect_stderr(STARTUPINFOW& startup_info)
+    void connect_stderr(STARTUPINFOW& startup_info) const
     {
         startup_info.hStdError = write_handle;
     }
 
-    void connect_stdout(STARTUPINFOW& startup_info)
+    void connect_stdout(STARTUPINFOW& startup_info) const
     {
         startup_info.hStdOutput = write_handle;
     }
 
-    void connect_stdin(STARTUPINFOW& startup_info)
+    void connect_stdin(STARTUPINFOW& startup_info) const
     {
         startup_info.hStdInput = read_handle;
     }
 
-    bool set_read_no_inherit()
+    bool set_read_no_inherit() const
     {
         return SetHandleInformation(read_handle, HANDLE_FLAG_INHERIT, 0);
     }
 
-    bool set_write_no_inherit()
+    bool set_write_no_inherit() const
     {
         return SetHandleInformation(write_handle, HANDLE_FLAG_INHERIT, 0);
     }
 
-    bool write_string(std::string& str)
+    bool write_string(std::string& str) const
     {
         DWORD bytes_written = 0;
         bool ok = WriteFile(write_handle, str.c_str(), str.size(), &bytes_written, nullptr);
         return ok && bytes_written > 0;
     }
 
-    bool read_string(std::string& result)
+    bool read_string(std::string& result) const
     {
         DWORD bytes_read = 0;
-        char ch_buffer[BUFSIZ];
+        char ch_buffer[BUFSIZ]{};
         bool ok = false;
 
         do {
