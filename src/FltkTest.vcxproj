@@ -179,6 +179,7 @@
     <ClInclude Include="NZ_JqProcess.h" />
     <ClInclude Include="NZ_MainWindow.h" />
     <ClInclude Include="NZ_MainWindowController.h" />
+    <ClInclude Include="NZ_Pipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

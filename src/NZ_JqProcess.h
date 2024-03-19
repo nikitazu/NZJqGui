@@ -3,69 +3,7 @@
 #include <string>
 #include <Windows.h>
 
-struct NZ_Pipe
-{
-    bool ok = false;
-    HANDLE read_handle = nullptr;
-    HANDLE write_handle = nullptr;
-
-    NZ_Pipe(LPSECURITY_ATTRIBUTES security_attr_p)
-    {
-        ok = CreatePipe(&read_handle, &write_handle, security_attr_p, 0);
-    }
-
-    ~NZ_Pipe()
-    {
-        close();
-    }
-
-    void close()
-    {
-        if (write_handle != nullptr) {
-            CloseHandle(write_handle);
-            write_handle = nullptr;
-        }
-
-        if (read_handle != nullptr) {
-            CloseHandle(read_handle);
-            read_handle = nullptr;
-        }
-    }
-
-    bool set_read_no_inherit()
-    {
-        return SetHandleInformation(read_handle, HANDLE_FLAG_INHERIT, 0);
-    }
-
-    bool set_write_no_inherit()
-    {
-        return SetHandleInformation(write_handle, HANDLE_FLAG_INHERIT, 0);
-    }
-
-    bool write_string(std::string& str)
-    {
-        DWORD bytes_written = 0;
-        bool ok = WriteFile(write_handle, str.c_str(), str.size(), &bytes_written, nullptr);
-        return ok && bytes_written > 0;
-    }
-
-    bool read_string(std::string& result)
-    {
-        DWORD bytes_read = 0;
-        char ch_buffer[BUFSIZ];
-        bool ok = false;
-
-        do {
-            ok = ReadFile(read_handle, ch_buffer, BUFSIZ, &bytes_read, nullptr);
-
-            if (ok) {
-                result.append(ch_buffer, bytes_read);
-            }
-        } while (ok && bytes_read == BUFSIZ);
-
-        return ok;
-    }
-};
+#include "NZ_Pipe.h"
 
 class NZ_JqProcess
 {
@@ -83,7 +21,7 @@ public:
 
         NZ_Pipe child_out(&security_attr);
 
-        if (!child_out.ok) {
+        if (!child_out.is_ok()) {
             return "[ERR] Failed to create <output> pipe";
         }
 
@@ -93,7 +31,7 @@ public:
 
         NZ_Pipe child_in(&security_attr);
 
-        if (!child_in.ok) {
+        if (!child_in.is_ok()) {
             return "[ERR] Failed to create <input> pipe";
         }
 
@@ -104,10 +42,10 @@ public:
         STARTUPINFOW startup_info;
         ZeroMemory(&startup_info, sizeof(startup_info));
         startup_info.cb = sizeof(startup_info);
-        startup_info.hStdError = child_out.write_handle;
-        startup_info.hStdOutput = child_out.write_handle;
-        startup_info.hStdInput = child_in.read_handle;
         startup_info.dwFlags |= STARTF_USESTDHANDLES;
+        child_out.connect_stderr(startup_info);
+        child_out.connect_stdout(startup_info);
+        child_in.connect_stdin(startup_info);
 
         PROCESS_INFORMATION process_info;
         ZeroMemory(&process_info, sizeof(process_info));
