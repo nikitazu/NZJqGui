@@ -32,5 +32,8 @@
     <ClInclude Include="NZ_MainWindowController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NZ_JqProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

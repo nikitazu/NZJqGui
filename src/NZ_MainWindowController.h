@@ -21,14 +21,15 @@ public:
 private:
     void update_model()
     {
+        _model->json_input = _window->json_input->value();
+        _model->query_input = _window->query_input->value();
         _model->output = _window->output->value();
-        _model->input = _window->json_input->value();
     }
 
     void update_ui()
     {
         _window->output->value(_model->output.c_str());
-        _window->json_input->value(_model->input.c_str());
+        _window->json_input->value(_model->json_input.c_str());
     }
 
     void on_submit_button_click()
