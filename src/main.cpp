@@ -1,3 +1,4 @@
+#include <clocale>
 #include <string>
 
 #include <FL/Fl.H>
@@ -12,7 +13,15 @@ const int WINDOW_HEIGHT = 768;
 
 int main(int argc, char** argv)
 {
-    auto window = NZ_MainWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "NZ JQ GUI [ v0.1.0 ]");
+    std::string app_title = "NZ JQ GUI [ v0.1.0 ]";
+    auto locale_name = std::setlocale(LC_ALL, "ru_RU.UTF8");
+
+    if (locale_name) {
+        app_title += " ";
+        app_title += locale_name;
+    }
+
+    auto window = NZ_MainWindow(WINDOW_WIDTH, WINDOW_HEIGHT, app_title.c_str());
     Fl_WindowEx::set_position_center_screen(window);
     window.color(FL_WHITE);
     window.end();
