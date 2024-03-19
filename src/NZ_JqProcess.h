@@ -41,6 +41,30 @@ struct NZ_Pipe
     {
         return SetHandleInformation(write_handle, HANDLE_FLAG_INHERIT, 0);
     }
+
+    bool write_string(std::string& str)
+    {
+        DWORD bytes_written = 0;
+        bool ok = WriteFile(write_handle, str.c_str(), str.size(), &bytes_written, nullptr);
+        return ok && bytes_written > 0;
+    }
+
+    bool read_string(std::string& result)
+    {
+        DWORD bytes_read = 0;
+        char ch_buffer[BUFSIZ];
+        bool ok = false;
+
+        do {
+            ok = ReadFile(read_handle, ch_buffer, BUFSIZ, &bytes_read, nullptr);
+
+            if (ok) {
+                result.append(ch_buffer, bytes_read);
+            }
+        } while (ok && bytes_read == BUFSIZ);
+
+        return ok;
+    }
 };
 
 class NZ_JqProcess
@@ -106,12 +130,17 @@ public:
         std::string result;
 
         if (success) {
-            bool json_ok = write_string_to_pipe(child_in, json);
+            bool json_ok = child_in.write_string(json);
 
             child_in.close();
 
-            if (json_ok) {
-                result = read_string_from_pipe(child_out);
+            if (!json_ok) {
+                result = "[ERR] Failed to write to process <input> pipe";
+            }
+            else {
+                if (!child_out.read_string(result)) {
+                    result = "[ERR] Failed to read from process <output> pipe";
+                }
             }
 
             CloseHandle(process_info.hProcess);
@@ -120,35 +149,6 @@ public:
         else {
             result = "[ERR] Failed to run the process!";
         }
-
-        return result;
-    }
-
-    static bool write_string_to_pipe(NZ_Pipe& pipe, std::string& str)
-    {
-        DWORD bytes_written = 0;
-        bool ok = WriteFile(pipe.write_handle, str.c_str(), str.size(), &bytes_written, nullptr);
-        return ok && bytes_written > 0;
-    }
-
-    static std::string read_string_from_pipe(NZ_Pipe& pipe)
-    {
-        std::string result;
-
-        DWORD bytes_read = 0;
-        char ch_buffer[BUFSIZ];
-        bool ok = false;
-
-        do {
-            ok = ReadFile(pipe.read_handle, ch_buffer, BUFSIZ, &bytes_read, nullptr);
-
-            if (ok) {
-                result.append(ch_buffer, bytes_read);
-            }
-            else {
-                return "[ERR] Failed to read jq output";
-            }
-        } while (bytes_read == BUFSIZ);
 
         return result;
     }
