@@ -17,6 +17,7 @@ public:
     Fl_Pack* main_pack = nullptr;
     Fl_Box* json_label = nullptr;
     Fl_Multiline_Input* json_input = nullptr;
+    Fl_Pack* query_pack = nullptr;
     Fl_Box* query_label = nullptr;
     Fl_Input* query_input = nullptr;
     Fl_Button* submit_button = nullptr;
@@ -32,14 +33,20 @@ public:
 
         int line_height = 25;
         int multiline_height = 300;
-        int last_multiline_height = main_height - line_height * 5 - multiline_height;
+        int last_multiline_height = main_height - line_height * 4 - multiline_height;
 
         main_pack = new Fl_Pack(main_margin, main_margin, main_width, main_height);
         json_label = new Fl_Box(0, 0, 100, line_height, "JSON");
         json_input = new Fl_Multiline_Input(0, 0, 0, multiline_height);
+
         query_label = new Fl_Box(0, 0, 100, line_height, "Запрос");
-        query_input = new Fl_Input(0, 0, 0, line_height);
-        submit_button = new Fl_Button(0, 0, 0, line_height, "Отправить");
+        query_pack = new Fl_Pack(0, 0, main_width, line_height);
+        query_input = new Fl_Input(0, 0, main_width - 100, line_height);
+        submit_button = new Fl_Button(0, 0, 100, line_height, "Отправить");
+        query_pack->end();
+        query_pack->type(Fl_Pack::HORIZONTAL);
+        query_pack->spacing(4);
+
         output_label = new Fl_Box(0, 0, 100, line_height, "Результат");
         output = new Fl_Multiline_Output(0, 0, 0, last_multiline_height);
         main_pack->end();
@@ -53,6 +60,7 @@ public:
         if (query_input != nullptr) { delete query_input; query_input = nullptr; }
         if (output_label != nullptr) { delete output_label; output_label = nullptr; }
         if (output != nullptr) { delete output; output = nullptr; }
+        if (query_pack != nullptr) { delete query_pack; query_pack = nullptr; }
         if (main_pack != nullptr) { delete main_pack; main_pack = nullptr; }
     }
 };
