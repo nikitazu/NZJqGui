@@ -15,29 +15,44 @@ public:
     void* controller = nullptr;
 
     Fl_Pack* main_pack = nullptr;
+    Fl_Box* json_label = nullptr;
     Fl_Multiline_Input* json_input = nullptr;
+    Fl_Box* query_label = nullptr;
     Fl_Input* query_input = nullptr;
     Fl_Button* submit_button = nullptr;
+    Fl_Box* output_label = nullptr;
     Fl_Multiline_Output* output = nullptr;
 
     NZ_MainWindow(int width, int height, const char* title)
         : Fl_Double_Window(width, height, title)
     {
         int main_margin = 8;
-        int main_x = 80;
+        int main_width = width - main_margin * 2;
+        int main_height = height - main_margin * 2;
 
-        main_pack = new Fl_Pack(main_x, main_margin, width - main_x - main_margin, height - main_margin * 2, nullptr);
-        json_input = new Fl_Multiline_Input(0, 0, 0, 300, "JSON");
-        query_input = new Fl_Input(0, 0, 0, 25, "Запрос");
-        submit_button = new Fl_Button(0, 0, 0, 25, "Отправить");
-        output = new Fl_Multiline_Output(0, 0, 0, 400, "Результат");
+        int line_height = 25;
+        int multiline_height = 300;
+        int last_multiline_height = main_height - line_height * 5 - multiline_height;
+
+        main_pack = new Fl_Pack(main_margin, main_margin, main_width, main_height);
+        json_label = new Fl_Box(0, 0, 100, line_height, "JSON");
+        json_input = new Fl_Multiline_Input(0, 0, 0, multiline_height);
+        query_label = new Fl_Box(0, 0, 100, line_height, "Запрос");
+        query_input = new Fl_Input(0, 0, 0, line_height);
+        submit_button = new Fl_Button(0, 0, 0, line_height, "Отправить");
+        output_label = new Fl_Box(0, 0, 100, line_height, "Результат");
+        output = new Fl_Multiline_Output(0, 0, 0, last_multiline_height);
         main_pack->end();
     }
 
     ~NZ_MainWindow() {
         if (submit_button != nullptr) { delete submit_button; submit_button = nullptr; }
+        if (json_label != nullptr) { delete json_label; json_label = nullptr; }
         if (json_input != nullptr) { delete json_input; json_input = nullptr; }
+        if (query_label != nullptr) { delete query_label; query_label = nullptr; }
         if (query_input != nullptr) { delete query_input; query_input = nullptr; }
+        if (output_label != nullptr) { delete output_label; output_label = nullptr; }
         if (output != nullptr) { delete output; output = nullptr; }
+        if (main_pack != nullptr) { delete main_pack; main_pack = nullptr; }
     }
 };
